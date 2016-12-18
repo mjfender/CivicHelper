@@ -1,4 +1,5 @@
 class Tweet < Twitter::Tweet
+  # include ApiAdapter, TweetsAdapter
   @@ALL = []
   # #belongs_to :user
   # #so, has to find_or_create user whenever new tweet is created. search users by ID.
@@ -10,7 +11,7 @@ class Tweet < Twitter::Tweet
     # #add method call here to add tweet to user, find or create
     # @text = hash[:text]
     # @langauge = hash[:lang]
-    # @point_gps = hash[:geo_point][:coordinates] 
+    # @point_gps = hash[:geo_point][:coordinates]
     # #looks to be an array, nil if a place or non-geo
     # @place_country = hash[:place][:country_code]
     # @place_name = hash[:place][:name]
@@ -30,19 +31,15 @@ class Tweet < Twitter::Tweet
   end
 
   def self.geo_search
-    all.collect do |tweet|
-      if tweet.geo.nil? || tweet.place.nil?
-        all.delete(tweet)
-        nil
-      else
-        tweet
+      all.delete_if do |tweet|
+        binding.pry
+        tweet.user.geo_enabled == false
       end
-    end.compact
+       all
   end
 
-  def self.geos
-    @@GEOS
-  end
+
+
 
 
 
