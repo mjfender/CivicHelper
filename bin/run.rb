@@ -3,10 +3,9 @@ require_relative '../app/controllers/api_adapter'
 
 #
 gc_client = GoogleAuth.new.connect
-
-
 ApiAdapter.mother
 
+binding.pry
 
 
 

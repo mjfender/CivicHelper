@@ -31,11 +31,9 @@ class Tweet < Twitter::Tweet
   end
 
   def self.geo_search
-      all.delete_if do |tweet|
-        binding.pry
-        tweet.user.geo_enabled == false
+      all.select do |tweet|
+        tweet.user.geo_enabled? || tweet.geo != nil || tweet.place != nil
       end
-       all
   end
 
 
