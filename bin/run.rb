@@ -2,10 +2,14 @@ require_relative '../config/environment.rb'
 require_relative '../app/controllers/api_adapter'
 
 #
+ TwitterAuth.new
+
 gc_client = GoogleAuth.new.connect
 ApiAdapter.mother
-
 binding.pry
+ResponseController.create_outgoing
+
+
 
 
 

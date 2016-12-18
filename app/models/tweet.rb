@@ -1,6 +1,7 @@
 class Tweet < Twitter::Tweet
   # include ApiAdapter, TweetsAdapter
   @@ALL = []
+  
   # #belongs_to :user
   # #so, has to find_or_create user whenever new tweet is created. search users by ID.
 
