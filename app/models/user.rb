@@ -10,6 +10,4 @@ class User < Twitter::User
     @@ALL
   end
 
-  def self.find_or_create(hash)
-  end
 end
