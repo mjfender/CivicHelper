@@ -25,13 +25,16 @@ class ApiAdapter
 
   def self.api_batch(term)
     if lowest_value == ""
-      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", geocode: "44.3194372,-76.5948503,100mi", lang: "en")
-      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", geocode: "41.6005,-93.6091,1000mi", lang: "en")
+      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", geocode: "44.3194372,-76.5948503,200mi", lang: "en")
+      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", geocode: "41.6005,-93.6091,1000mi", lang: "en")
+      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", geocode: "37.7576171,-122.5776844,200mi", lang: "en")
+
       tweets = results.attrs[:statuses]
     else
-      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "44.3194372,-76.5948503,100mi")
-      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "41.6005,-93.6091,1000mi")
-      
+      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "44.3194372,-76.5948503,200mi")
+      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "41.6005,-93.6091,1000mi")
+      # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "37.7576171,-122.5776844,300mi")
+
       tweets = results.attrs[:statuses]
     end
     self.process(tweets)
@@ -39,8 +42,10 @@ class ApiAdapter
 
   def self.mother(term)
     count = 0
-    while Tweet.all.count <= 2000
-      CLI.count_update
+    while Tweet.all.count <= 2750
+      if count >= 1 
+        CLI.count_update
+      end
       api_batch(term)
       count += 1
     end

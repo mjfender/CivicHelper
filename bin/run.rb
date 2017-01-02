@@ -6,7 +6,6 @@ term = CLI.welcome
 TwitterAuth.new
 # Congress.new
 gc_client = GoogleAuth.new.connect
-
 ApiAdapter.mother(term)
 # runs API calls until hitting target number of tweets
 

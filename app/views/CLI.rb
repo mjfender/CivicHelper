@@ -49,23 +49,23 @@ class CLI
   def self.point_update(tweet_text, tweet)
     response = nil
       puts "------------------ TWEET #{Tweet.addresses.index(tweet)+1} of #{Tweet.addresses.size} -------------------"
-      puts "From: #{tweet.user.screen_name}"
+      puts "From: @#{tweet.user.screen_name}"
       puts "Text: #{tweet.text}"
       puts "---------------------------------------------------"
       puts "Address found using GPS Point:"
       puts "#{tweet.address}"
       puts "---------------------------------------------------"
-      puts "Proposed tweet to #{tweet.user}:"
+      puts "Proposed tweet to #{tweet.user.screen_name}:"
       puts "#{tweet_text}"
       puts "---------------------------------------------------"
      while response != 'send' && response != 'skip' && response != 'switch' && response != 'exit'
-      puts "Would you like to SEND the tweet or SKIP to next?"
+      puts "Would you like to SEND the proposed tweet or SKIP to next?"
       print "Type 'SEND' or 'SKIP' -- or type EXIT to end!"
       response = gets.chomp.downcase
     end
 
     if response.downcase == "send"
-      puts "Sending tweet to #{tweet.user.screen_name}"
+      puts "Sending tweet to @#{tweet.user.screen_name}"
       true
     elsif response.downcase == "skip"
       false

@@ -46,9 +46,8 @@ class Tweet < Twitter::Tweet
   def self.addresses_from_points
     point_geo.each do |tweet|
       address = Geocoder.search(tweet.geo.coordinates)
-      if address[0].formatted_address.split.include?("Canada") || address[0].formatted_address.split.include?("Mexico")
-      elsif address[0].formatted_address.split.include?("USA")
-        tweet.address = Geocoder.search(tweet.geo.coordinates)[0].formatted_address
+      if address[0].formatted_address.split.include?("USA")
+        tweet.address = address[0].formatted_address
       end
     end
   end
