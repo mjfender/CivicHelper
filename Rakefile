@@ -1,5 +1,5 @@
 require_relative 'config/environment.rb'
-
+Rails.application.load_tasks
 
 # namespace :db do
 

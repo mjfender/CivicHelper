@@ -1,27 +1,12 @@
 class Tweet < Twitter::Tweet
   @@ALL = []
 
-  attr_accessor :address
+  attr_accessor :address, :place, :address
   
-  # #belongs_to :user
-  # #so, has to find_or_create user whenever new tweet is created. search users by ID.
-
   def initialize(hash)
     super
-    # @id = hash[:id]
-    # @user_id = hash[:user][:id]
-    # #add method call here to add tweet to user, find or create
-    # @text = hash[:text]
-    # @langauge = hash[:lang]
-    # @point_gps = hash[:geo_point][:coordinates]
-    # #looks to be an array, nil if a place or non-geo
-    # @place_country = hash[:place][:country_code]
-    # @place_name = hash[:place][:name]
-    # @place_type = hash[:place][:type]
-    # @place_gps = hash[:place][:coordinates]
-    # @retweets = hash[:retweet_count]
-    # @favorites = hash[:favorite_count]
     @address = ""
+    @place = ""
     @@ALL << self
   end
 
@@ -30,27 +15,80 @@ class Tweet < Twitter::Tweet
     @@ALL
   end
 
-  def self.find_or_create(hash)
-  end
-
-
-  def self.point_geo
-    points = all.reject do |tweet|
+  def self.geo
+    geo = all.partition do |tweet|
       tweet.geo.nil?
     end
-    points
+    # points = geo[1]
+    # places = geo[0]
+    geo
     #Geocoder.search(array)
     #Geocoder.search([41.6005,-93.6091])
   end
 
+
   def self.addresses_from_points
-    point_geo.each do |tweet|
-      address = Geocoder.search(tweet.geo.coordinates)
-      if address[0].formatted_address.split.include?("USA")
-        tweet.address = address[0].formatted_address
+    geo[1].each do |tweet|
+      if !Helpee.find_by(user_id: "#{tweet.user.id}")
+        address = Geocoder.search(tweet.geo.coordinates)
+        if address[0].formatted_address.split.include?("USA")
+          tweet.address = address[0].formatted_address
+        end
       end
     end
   end
+
+  #for addresses_from_places, getting tweets with tweet.place = nil (nil? = false, empty? = true)
+  # in this case, tweet.user.location = city name
+
+
+  def self.places_and_locations
+    places = geo[0].partition do |tweet|
+      tweet.place.empty?
+    end
+    places
+    # places[0] = places with location based on profile
+    # places[1] = places with tweet.place.bounding_box.coordinates[0].reverse or tweet.place.full_name
+
+
+    # for Geocoder.search by "Financial District, Manhattan"  -- you get a result back in an array and have to access the first item: result[0].formatted_address (ex: Financial District, New York, NY, USA)
+
+    # for Google API search by just the name..?
+
+
+  end
+
+  def self.addresses_from_places
+   real_places = places_and_locations[1]
+   faux_places = places_and_locations[0]
+
+
+    # first, assign "place" based on a coordinate in the place's GPS polygon bounding box
+    real_places.each do |tweet|
+      if !Helpee.find_by(user_id: "#{tweet.user.id}")
+        search_for = tweet.place.bounding_box.coordinates[0].reverse
+        address = Geocoder.search(search_for)
+        binding.pry
+        if !address[0].nil? && address[0].formatted_address.split.include?("USA")
+          tweet.place = address[0].formatted_address
+          tweet.geo_place = true
+        end
+      end
+    end
+
+   #next, assign "place" to match city name for tweets with location based on user's profile
+    faux_places.each do |tweet|
+      if !Helpee.find_by(user_id: "#{tweet.user.id}")
+        search_for = tweet.user.location
+        address = Geocoder.search(search_for)
+        if !address[0].nil? && address[0].formatted_address.split.include?("USA")
+          tweet.place = address[0].formatted_address
+        end
+      end
+    end
+  
+  end
+
 
   def self.addresses
     all.select do |tweet|
@@ -58,12 +96,23 @@ class Tweet < Twitter::Tweet
     end
   end
 
+  def self.places
+    tweets_with_places = all.select do |tweet|
+      tweet.place != ""
+    end
 
-  def self.geo_search
-      all.select do |tweet|
-        tweet.user.geo_enabled? || tweet.geo != nil || tweet.place != nil
-      end
+    tweets_with_places.partition do |tweet|
+      tweet.geo_place?
+    end
+
+    #Tweet.places[0] = priority
+    #Tweet.places[1] = Tweets based on twitter profile
   end
 
+  def self.real_places
+    all.select do |tweet|
+      tweet.place != ""
+    end
+  end
 
 end

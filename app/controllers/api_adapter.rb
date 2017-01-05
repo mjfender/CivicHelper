@@ -32,7 +32,7 @@ class ApiAdapter
       tweets = results.attrs[:statuses]
     else
       # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "44.3194372,-76.5948503,200mi")
-      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "41.6005,-93.6091,1000mi")
+      results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "41.6005,-93.6091,1250mi")
       # results =  TwitterAuth.client.search("#{term.concat(" -rt")}", result_type: "recent", lang: "en", max_id: "#{lowest_value.to_i - 1}", geocode: "37.7576171,-122.5776844,300mi")
 
       tweets = results.attrs[:statuses]
@@ -40,21 +40,20 @@ class ApiAdapter
     self.process(tweets)
   end
 
-  def self.mother(term)
+  def self.get_tweets
     count = 0
-    while Tweet.all.count <= 2750
-      if count >= 1 
-        CLI.count_update
-      end
+    while Tweet.all.count <= 100
+      term = terms
       api_batch(term)
       count += 1
     end
-    CLI.count_summary
     Tweet.all
   end
 
-
-
+  def self.terms
+    terms = ["Donald Trump", "elected", "election", "congress", "\#election2016", "voters", "vote", "voted", "democracy", "officials", "voter suppression", "legislature", "legislation", "EPA", "global warming", "climate change", "inauguration", "civic duty", "democrats", "republicans", "Bernie Sanders", "Hillary Clinton", "senators", "representative", "healthcare", "politics", "political", "voter registration" ]
+    terms[rand(27)]
+  end
 
 end
 

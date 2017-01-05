@@ -1,3 +1,7 @@
+# Load the Rails application.
+require_relative 'application'
 require "bundler/setup"
-Bundler.require
-require_all "app"
+
+
+# Initialize the Rails application.
+Rails.application.initialize!

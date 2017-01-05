@@ -1,0 +1,3 @@
+Helpee.create(user_id: "5000", tweet_id: "81831000", handle: "mjfender", place: "Glenwood, IA, USA", reps: "@meow, @bark, @hiccup", other_reps: "@ribbit, @ladida, @destract", name: "Matt Fender", location: "Glenwood, IA", description: "Haiiiii", followers_count: "1000", statuses_count: "1000", join_date: "Tue Dec 13 04:47:14 +0000 2016", geo_enabled: 0, verified: 1, language: "en")
+
+Helpee.create(user_id: "6000", tweet_id: "81831001", handle: "mjfranceour", place: "Glenwii, LA, USA", reps: "@meow, @boom, @clap", other_reps: "@flam, @dada, @pipoo", name: "Matthias Franceour", location: "Glenwii, LA", description: "Bonjouuuur", followers_count: "2000", statuses_count: "3000", join_date: "Tue Dec 13 04:47:14 +0000 2014", geo_enabled: 1, verified: 0, language: "en")

@@ -1,21 +1,16 @@
 require_relative '../config/environment.rb'
 require_relative '../app/controllers/api_adapter'
+require_all "app"
 
-#
-term = CLI.welcome
 TwitterAuth.new
-# Congress.new
 gc_client = GoogleAuth.new.connect
-ApiAdapter.mother(term)
+
+ApiAdapter.get_tweets
 # runs API calls until hitting target number of tweets
 
-if Tweet.point_geo.size >= 1
-  ResponseController.point_outgoing
-else
-  CLI.no_points
-end
+ResponseController.point_outgoing if Tweet.geo[1].size >= 1
+ResponseController.place_outgoing if Tweet.geo[0].size >= 1
 
-CLI.more_soon
 exit
 
 

@@ -22,29 +22,8 @@ class GCAdapter
         end
       end
 
-      # if rep_hash.officials[2].channels[1].id.nil? || rep_hash.officials[3].channels[1].id.nil? || rep_hash.officials[4].channels[1].id.nil? || rep_hash.officials[5].channels[1].id.nil?
-      
-      # else
-      #     if rep_hash.officials[2].channels[1].id && rep_hash.officials[3].channels[1].id
-      #       array << "@#{rep_hash.officials[2].channels[1].id}, @#{rep_hash.officials[3].channels[1].id}"
-      #     end
-      #     if rep_hash.officials[4].channels[1].id && rep_hash.officials[5].channels[1].id
-      #       array << ", @#{rep_hash.officials[4].channels[1].id} and @#{rep_hash.officials[5].channels[1].id}"
-      #     end
-      # end
-      #Senator 1: rep_hash.officials[2].channels[1].id #"SenSchumer"
-      #Senator 2: rep_hash.officials[3].channels[1].id #"SenGillibrand"
-      #Rep: rep_hash.officials[4].channels[1].id #repkathleenrice
-      #StateRep: #Rep: rep_hash.officials[5].channels[1].id #repkathleenrice
-
-      #code that inserts strings into array
       if not array.nil?
-        array.uniq!
-        if array.size < 5
-          array.take(array.size)
-        else
-          array.take(5)
-        end
+        array.uniq!.shuffle
       end
     end
   end
