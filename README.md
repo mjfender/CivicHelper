@@ -2,7 +2,7 @@
 @CivicHelper is a Twitter bot created to help connect citizens to elections and their representatives in government.
 
 ## Summary
-[Christi Reid](https://github.com/limerentfox/) and [Matt Fender] (https://github.com/mjfender/) created the MVP version of this CLI
+[Christi Reid](https://github.com/limerentfox/) and [Matt Fender](https://github.com/mjfender/) created the MVP version of this CLI
 (command line interface) program in December 2016 as part of our immersive web developer program at Flatiron School in NYC.
 
 The CLI version of the app makes calls to the Twitter API using the [@CivicHelper](https://www.twitter.com/CivicHelper) account to identify
